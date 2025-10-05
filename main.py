@@ -8,11 +8,13 @@ import os
 from sqlalchemy import create_engine, Column, Integer, Text
 from sqlalchemy.orm import sessionmaker, declarative_base
 from pydantic import BaseModel
+from dotenv import load_dotenv
 
-# Database URL (was in db.py)
-DATABASE_URL = os.getenv('DATABASE_URL', 'mysql+pymysql://root:Arpit%402004@127.0.0.1:3306/chatbot_db')
 
-engine = create_engine(DATABASE_URL, echo=True, future=True)
+load_dotenv()
+database_url = os.getenv("DATABASE_URL")
+
+engine = create_engine(database_url, echo=True, future=True)
 local_session = sessionmaker(bind=engine, autoflush=False, autocommit=False, future=True)
 Base = declarative_base()
 
@@ -67,7 +69,7 @@ app.add_middleware(
 # Serve your frontend files (HTML, CSS, JS)
 app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
-# Load the AI model and questions when server starts
+# Load the AI model
 analyzer = setup_analyzer()
 
 
