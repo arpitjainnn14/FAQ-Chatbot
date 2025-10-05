@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Application</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="chat-header">
+            <h1>AI Chatbot</h1>
+            <p>Ask me anything!</p>
+        </div>
+        
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        <p>Hello! I'm your AI assistant. How can I help you today?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="input-container">
+            <div class="input-wrapper">
+                <input 
+                    type="text" 
+                    id="messageInput" 
+                    placeholder="Type your message here..."
+                    autocomplete="off"
+                >
+                <button id="sendButton" type="button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- CRUD Operations beside chatbot -->
+        <div class="crud-operations">
+            <h2>Manage Q&A</h2>
+            <form id="addForm">
+                <input type="text" id="addQuestion" placeholder="New question" required>
+                <input type="text" id="addAnswer" placeholder="New answer" required>
+                <button type="submit">Add</button>
+            </form>
+            <form id="updateForm">
+                <input type="number" id="updateId" placeholder="ID to update" required>
+                <input type="text" id="updateQuestion" placeholder="Updated question">
+                <input type="text" id="updateAnswer" placeholder="Updated answer">
+                <button type="submit">Update</button>
+            </form>
+            <form id="deleteForm">
+                <input type="number" id="deleteId" placeholder="ID to delete" required>
+                <button type="submit">Delete</button>
+            </form>
+            <div id="crudMessage"></div>
+        </div>
+    </div>
+    
+    <div class="loading" id="loadingIndicator">
+        <div class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
