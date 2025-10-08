@@ -4,6 +4,7 @@ class ChatBot {
         this.sendButton = document.getElementById('sendButton');
         this.chatMessages = document.getElementById('chatMessages');
         this.loadingIndicator = document.getElementById('loadingIndicator');
+        this.clearChatBtn = document.getElementById('clearChatBtn');
         
         this.init();
     }
@@ -17,8 +18,38 @@ class ChatBot {
             }
         });
         
+        // Clear chat button
+        if (this.clearChatBtn) {
+            this.clearChatBtn.addEventListener('click', () => this.clearChat());
+        }
+        
+        // Tab switching
+        this.initTabs();
+        
         // Auto-resize input and focus
         this.messageInput.focus();
+    }
+    
+    initTabs() {
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetTab = btn.getAttribute('data-tab');
+                
+                // Remove active class from all tabs
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                btn.classList.add('active');
+                const targetContent = document.getElementById(targetTab);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                }
+            });
+        });
     }
     
     async sendMessage() {
@@ -106,32 +137,30 @@ class ChatBot {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}-message`;
         
+        // Add avatar
+        const avatar = document.createElement('div');
+        avatar.className = 'message-avatar';
+        avatar.textContent = sender === 'user' ? '👤' : '🤖';
+        
         const messageContent = document.createElement('div');
         messageContent.className = 'message-content';
         
         if (isError) {
-            messageContent.className += ' error-message';
+            messageContent.style.background = '#fee';
+            messageContent.style.color = '#c33';
+            messageContent.style.border = '1px solid #fcc';
         }
         
         // Handle text formatting (basic markdown-like support)
         const formattedText = this.formatText(text);
         messageContent.innerHTML = formattedText;
         
+        messageDiv.appendChild(avatar);
         messageDiv.appendChild(messageContent);
         this.chatMessages.appendChild(messageDiv);
         
         // Scroll to bottom
         this.scrollToBottom();
-        
-        // Add animation
-        messageDiv.style.opacity = '0';
-        messageDiv.style.transform = 'translateY(20px)';
-        
-        requestAnimationFrame(() => {
-            messageDiv.style.transition = 'all 0.3s ease';
-            messageDiv.style.opacity = '1';
-            messageDiv.style.transform = 'translateY(0)';
-        });
     }
     
     formatText(text) {
@@ -161,13 +190,8 @@ class ChatBot {
     
     // Method to clear chat history
     clearChat() {
-        this.chatMessages.innerHTML = `
-            <div class="message bot-message">
-                <div class="message-content">
-                    <p>Hello! I'm your AI assistant. How can I help you today?</p>
-                </div>
-            </div>
-        `;
+        this.chatMessages.innerHTML = '';
+        this.addMessage("Hello! I'm your AI assistant. How can I help you today?", 'bot');
     }
     
     // Method to add typing indicator
@@ -175,6 +199,7 @@ class ChatBot {
         const typingDiv = document.createElement('div');
         typingDiv.className = 'message bot-message typing-indicator';
         typingDiv.innerHTML = `
+            <div class="message-avatar">🤖</div>
             <div class="message-content">
                 <div class="typing-animation">
                     <span></span>
@@ -279,10 +304,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Additional CSS for typing indicator (add this to your CSS file)
+// Additional CSS for typing indicator
 const additionalCSS = `
 .typing-indicator .message-content {
-    padding: 16px 20px;
+    padding: 12px 16px;
 }
 
 .typing-animation {
@@ -292,10 +317,10 @@ const additionalCSS = `
 }
 
 .typing-animation span {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: #666;
+    background: var(--text-light, #94a3b8);
     animation: typing 1.4s ease-in-out infinite both;
 }
 
@@ -317,7 +342,7 @@ const additionalCSS = `
         opacity: 0.4;
     }
     30% {
-        transform: translateY(-10px);
+        transform: translateY(-8px);
         opacity: 1;
     }
 }
