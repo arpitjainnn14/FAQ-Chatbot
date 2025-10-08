@@ -3,70 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Application</title>
+    <title>FAQ Chatbot</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="chat-header">
-            <h1>AI Chatbot</h1>
-            <p>Ask me anything!</p>
-        </div>
-        
-        <div class="chat-container" id="chatContainer">
-            <div class="chat-messages" id="chatMessages">
-                <div class="message bot-message">
-                    <div class="message-content">
-                        <p>Hello! I'm your AI assistant. How can I help you today?</p>
+    <div class="app-wrapper">
+        <!-- Main Chat Section -->
+        <div class="chat-section">
+            <div class="chat-header">
+                <div class="header-content">
+                    <div class="bot-avatar">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="header-text">
+                        <h1>AI Assistant</h1>
+                        <p class="status-indicator">
+                            <span class="status-dot"></span>
+                            Online & Ready
+                        </p>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="input-container">
-            <div class="input-wrapper">
-                <input 
-                    type="text" 
-                    id="messageInput" 
-                    placeholder="Type your message here..."
-                    autocomplete="off"
-                >
-                <button id="sendButton" type="button">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
+                <button id="clearChatBtn" class="icon-btn" title="Clear conversation">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                 </button>
             </div>
+            
+            <div class="chat-container" id="chatContainer">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">
+                            <p>👋 Hello! I'm your AI assistant. Ask me anything, and I'll do my best to help you!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="messageInput" 
+                        placeholder="Ask me anything..."
+                        autocomplete="off"
+                    >
+                    <button id="sendButton" type="button" title="Send message">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 8L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <!-- CRUD Operations beside chatbot -->
-        <div class="crud-operations">
-            <h2>Manage Q&A</h2>
-            <form id="addForm">
-                <input type="text" id="addQuestion" placeholder="New question" required>
-                <input type="text" id="addAnswer" placeholder="New answer" required>
-                <button type="submit">Add</button>
-            </form>
-            <form id="updateForm">
-                <input type="number" id="updateId" placeholder="ID to update" required>
-                <input type="text" id="updateQuestion" placeholder="Updated question">
-                <input type="text" id="updateAnswer" placeholder="Updated answer">
-                <button type="submit">Update</button>
-            </form>
-            <form id="deleteForm">
-                <input type="number" id="deleteId" placeholder="ID to delete" required>
-                <button type="submit">Delete</button>
-            </form>
-            <div id="crudMessage"></div>
+        <!-- Management Panel -->
+        <div class="management-panel">
+            <div class="panel-header">
+                <h2>Q&A Management</h2>
+                <p>Add, update, or delete questions</p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="add">➕ Add</button>
+                <button class="tab-btn" data-tab="update">✏️ Update</button>
+                <button class="tab-btn" data-tab="delete">🗑️ Delete</button>
+            </div>
+
+            <div class="tab-content active" id="add-tab">
+                <form id="addForm" class="crud-form">
+                    <div class="form-group">
+                        <label for="addQuestion">Question</label>
+                        <textarea id="addQuestion" placeholder="Enter the question..." required rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="addAnswer">Answer</label>
+                        <textarea id="addAnswer" placeholder="Enter the answer..." required rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Q&A Pair</button>
+                </form>
+            </div>
+
+            <div class="tab-content" id="update-tab">
+                <form id="updateForm" class="crud-form">
+                    <div class="form-group">
+                        <label for="updateId">Q&A ID</label>
+                        <input type="number" id="updateId" placeholder="Enter ID to update" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateQuestion">New Question (optional)</label>
+                        <textarea id="updateQuestion" placeholder="Leave empty to keep current" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateAnswer">New Answer (optional)</label>
+                        <textarea id="updateAnswer" placeholder="Leave empty to keep current" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Update Q&A</button>
+                </form>
+            </div>
+
+            <div class="tab-content" id="delete-tab">
+                <form id="deleteForm" class="crud-form">
+                    <div class="form-group">
+                        <label for="deleteId">Q&A ID</label>
+                        <input type="number" id="deleteId" placeholder="Enter ID to delete" required>
+                    </div>
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Warning:</strong> This action cannot be undone.
+                    </div>
+                    <button type="submit" class="btn btn-danger">Delete Q&A</button>
+                </form>
+            </div>
+
+            <div id="crudMessage" class="crud-message"></div>
         </div>
     </div>
     
     <div class="loading" id="loadingIndicator">
-        <div class="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        <div class="loading-spinner"></div>
+        <p>Thinking...</p>
     </div>
 
     <script src="script.js"></script>
