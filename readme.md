@@ -10,7 +10,7 @@ Imagine having a smart assistant that remembers everything you teach it. This ch
 
 *Add your UI screenshot here*
 
-![FAQ Chatbot Interface](image\UI.png)
+![FAQ Chatbot Interface](UI.png)
 
 ## �🚀 Quick Start
 
